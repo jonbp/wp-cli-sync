@@ -24,7 +24,7 @@ composer require jonbp/wp-cli-sync:dev-master
 3. Add the following to your `.env` file (don't forget `.env.example` for reference 😉):
 
 ```sh
-# Dev Sync Settings [wp sync]
+# WP-CLI Sync Settings [wp sync]
 LIVE_SSH_HOSTNAME=""
 LIVE_SSH_USERNAME=""
 REMOTE_PROJECT_LCOATION="~/gitrepo"
