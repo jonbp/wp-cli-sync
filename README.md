@@ -8,7 +8,7 @@ A WP-CLI command for syncing a live site to a development environment
 
 1. Add the following to the `repositories` area of your project's `composer.json`:
 
-```sh
+```json
 {
   "type": "vcs",
   "url": "https://github.com/jonbp/wp-cli-sync.git"
@@ -37,4 +37,10 @@ DEV_ACTIVATED_PLUGINS=""
 
 # Plugins deactivated on sync
 DEV_DEACTIVATED_PLUGINS=""
+```
+
+4. Run
+
+```sh
+wp sync
 ```
