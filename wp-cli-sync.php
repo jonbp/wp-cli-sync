@@ -11,6 +11,11 @@ License:      MIT License
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
   $sync = function() {
 
+    // Task Message
+    function task_message($message) {
+      echo "\n\033[34mTask: ".$message."\n\033[0m";
+    }
+
     // Sync vars
     $ssh_hostname = env('LIVE_SSH_HOSTNAME');
     $ssh_username = env('LIVE_SSH_USERNAME');
@@ -29,15 +34,18 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     chdir(ABSPATH.'../../');
 
     // Get Database
+    task_message('Sync Database');
     $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "cd '.$rem_proj_loc.' & '.$rem_proj_loc.'/vendor/bin/wp db export -" | pv | ./vendor/bin/wp db import -';
     system($command);
 
     // Get Uploads
+    task_message('Sync Uploads Folder');
     $command = 'rsync -avhP '.$ssh_username.'@'.$ssh_hostname.':'.$rem_proj_loc.'/web/app/uploads/ ./web/app/uploads/';
     system($command);
 
     // Activate Plugins
     if(!empty($dev_activated_plugins)) {
+      task_message('Activate Plugins');
       $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_activated_plugins));
       $command = 'wp plugin activate '.$cleaned_arr_list;
       system($command);
@@ -45,10 +53,14 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 
     // Deactivate Plugins
     if(!empty($dev_deactivated_plugins)) {
+      task_message('Deactivate Plugins');
       $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_deactivated_plugins));
       $command = 'wp plugin deactivate '.$cleaned_arr_list;
       system($command);
     }
+
+    // Completion Message
+    echo "\n\033[32m✓ All Tasks Completed\n\n";
 
   };
 
