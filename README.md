@@ -2,7 +2,11 @@
 
 A WP-CLI command for syncing a live site to a development environment
 
-*WP CLI Sync only supports bedrock installations*
+## Requirements
+
+* A [bedrock](https://github.com/wp-cli/wp-cli) based WordPress project
+* [WP-CLI](https://github.com/wp-cli/wp-cli)
+* [rsync](https://rsync.samba.org)
 
 ## Installation
 
