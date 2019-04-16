@@ -2,18 +2,11 @@
   "name": "jonbp/wp-cli-sync",
   "type": "wordpress-muplugin",
   "description": "A WP-CLI command for syncing a live site to a development environment",
-  "license": "GPL-2.0+",
+  "license": "MIT",
   "homepage": "https://github.com/jonbp/wp-cli-sync",
   "minimum-stability": "dev",
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://wpackagist.org"
-    }
-  ],
   "require": {
     "wp-cli/wp-cli": "^2.1",
     "wp-cli/db-command": "^2.0"
   }
 }
-
