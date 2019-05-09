@@ -22,7 +22,7 @@ composer require jonbp/wp-cli-sync:dev-master
 # WP-CLI Sync Settings [wp sync]
 LIVE_SSH_HOSTNAME=""
 LIVE_SSH_USERNAME=""
-REMOTE_PROJECT_LCOATION="~/gitrepo"
+REMOTE_PROJECT_LOCATION="~/gitrepo"
 
 # Plugins should be formatted in a comma seperated format
 # For example: "plugin1,plugin2,plugin3"
