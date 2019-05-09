@@ -19,6 +19,11 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
       echo "\033[".$color."m".$title.": ".$message."\n\033[0m";
     }
 
+    // Line Break + Color Reset
+    function lb_cr() {
+      echo "\n\033[0m";
+    }
+
     // Fail Count Var
     $fail_count = 0;
 
@@ -29,7 +34,15 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 
     // Exit if some vars missing
     if(empty($ssh_hostname) || empty($ssh_username) || empty($rem_proj_loc)) {
-      exit('Error: some/all dev sync vars are not set in .env file');
+
+      // Exit Messages
+      task_message('some/all dev sync vars are not set in .env file', 'Error', 31);
+      task_message('I\'ve recently fixed a pretty obvious typo in this command and it\'s documentation (my bad)'."\n".'check the spelling of word \'LOCATION\' in the \'REMOTE_PROJECT_LOCATION\' variable'."\n".'in your \'.env\' file if this script worked fine before the update.', 'Notice', 33);
+
+      // Line Break + Color Reset + Exit
+      lb_cr();
+      exit();
+
     }
 
     // Plugin Vars
@@ -108,7 +121,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     }
 
     // Final Line Break + Color Reset
-    echo "\n\033[0m";
+    lb_cr();
 
   };
 
