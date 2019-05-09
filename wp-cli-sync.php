@@ -30,7 +30,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     // Sync vars
     $ssh_hostname = env('LIVE_SSH_HOSTNAME');
     $ssh_username = env('LIVE_SSH_USERNAME');
-    $rem_proj_loc = env('REMOTE_PROJECT_LCOATION');
+    $rem_proj_loc = env('REMOTE_PROJECT_LOCATION');
 
     // Exit if some vars missing
     if(empty($ssh_hostname) || empty($ssh_username) || empty($rem_proj_loc)) {
