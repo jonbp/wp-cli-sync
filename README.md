@@ -12,7 +12,7 @@ A WP-CLI command for syncing a live site to a development environment
 1. Require the plugin by running:
 
 ```sh
-composer require jonbp/wp-cli-sync:dev-master
+composer require jonbp/wp-cli-sync
 ```
 
 2. Add the following to your `.env` file (don't forget `.env.example` for reference 😉):
