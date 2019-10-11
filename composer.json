@@ -3,10 +3,20 @@
   "type": "wordpress-muplugin",
   "description": "A WP-CLI command for syncing a live site to a development environment",
   "license": "MIT",
+  "authors": [
+    {
+      "name": "Jon Beaumont-Pike",
+      "email": "me@jonbp.co.uk",
+      "homepage": "https://jonbp.co.uk"
+    }
+  ],
   "homepage": "https://github.com/jonbp/wp-cli-sync",
   "minimum-stability": "dev",
   "require": {
     "wp-cli/wp-cli": "^2.1",
     "wp-cli/db-command": "^2.0"
+  },
+  "require-dev": {
+    "wp-cli/extension-command": "^2.0"
   }
 }

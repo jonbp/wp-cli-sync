@@ -2,7 +2,7 @@
 /*
 Plugin Name:  WP-CLI Sync
 Description:  A WP-CLI command to sync the database and uploads from a live site to a development environment
-Version:      1.0.0
+Version:      1.1.0
 Author:       Jon Beaumont-Pike
 Author URI:   https://jonbp.co.uk/
 License:      MIT License
@@ -37,7 +37,6 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 
       // Exit Messages
       task_message('some/all dev sync vars are not set in .env file', 'Error', 31);
-      task_message('I\'ve recently fixed a pretty obvious typo in this command and it\'s documentation (my bad)'."\n".'check the spelling of word \'LOCATION\' in the \'REMOTE_PROJECT_LOCATION\' variable'."\n".'in your \'.env\' file if this script worked fine before the update.', 'Notice', 33);
 
       // Line Break + Color Reset + Exit
       lb_cr();
@@ -56,23 +55,18 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
      * TASK: Database Sync
      */
     $task_name = 'Sync Database';
-    if (`which wp`) {
-      task_message($task_name);
+    task_message($task_name);
 
-      // pv check
-      if (`which pv`) {
-        $pipe = '| pv |';
-      } else {
-        task_message('Install the \'pv\' command to monitor import progress', 'Notice', 33, false);
-        $pipe = '|';
-      }
-      
-      $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "cd '.$rem_proj_loc.' & '.$rem_proj_loc.'/vendor/bin/wp db export -" '.$pipe.' wp db import -';
-      system($command);
+    // pv check
+    if (`which pv`) {
+      $pipe = '| pv |';
     } else {
-      task_message('WP-CLI is not installed. Unable to run the '.$task_name.' task', 'Error', 31);
-      $fail_count++;
+      task_message('Install the \'pv\' command to monitor import progress', 'Notice', 33, false);
+      $pipe = '|';
     }
+    
+    $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "cd '.$rem_proj_loc.' & '.$rem_proj_loc.'/vendor/bin/wp db export -" '.$pipe.' ./vendor/bin/wp db import -';
+    system($command);
 
     /**
      * TASK: Sync Uploads Folder
@@ -90,27 +84,21 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     /**
      * TASK: Activate / Deactivate Plugins
      */
-    if (`which wp`) {
 
-      // Activate Plugins
-      if(!empty($dev_activated_plugins)) {
-        task_message('Activate Plugins');
-        $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_activated_plugins));
-        $command = 'wp plugin activate '.$cleaned_arr_list;
-        system($command);
-      }
+    // Activate Plugins
+    if(!empty($dev_activated_plugins)) {
+      task_message('Activate Plugins');
+      $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_activated_plugins));
+      $command = 'wp plugin activate '.$cleaned_arr_list;
+      system($command);
+    }
 
-      // Deactivate Plugins
-      if(!empty($dev_deactivated_plugins)) {
-        task_message('Deactivate Plugins');
-        $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_deactivated_plugins));
-        $command = 'wp plugin deactivate '.$cleaned_arr_list;
-        system($command);
-      }
-
-    } else {
-      task_message('WP-CLI is not installed. Unable to activate / deactivate plugins', 'Error', 31);
-      $fail_count++;
+    // Deactivate Plugins
+    if(!empty($dev_deactivated_plugins)) {
+      task_message('Deactivate Plugins');
+      $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_deactivated_plugins));
+      $command = './vendor/bin/wp plugin deactivate '.$cleaned_arr_list;
+      system($command);
     }
 
     // Completion Message
