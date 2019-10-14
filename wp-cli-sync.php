@@ -89,7 +89,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     if(!empty($dev_activated_plugins)) {
       task_message('Activate Plugins');
       $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_activated_plugins));
-      $command = 'wp plugin activate '.$cleaned_arr_list;
+      $command = './vendor/bin/wp plugin activate '.$cleaned_arr_list;
       system($command);
     }
 
