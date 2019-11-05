@@ -2,6 +2,11 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 1.1.2: 05/11/2019
+
+* DB Sync directory change fix (#1)
+* DB Sync now requires `bash`
+
 ### 1.1.1: 14/10/2019
 
 * Require Fixes

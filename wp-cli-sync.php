@@ -2,7 +2,7 @@
 /*
 Plugin Name:  WP-CLI Sync
 Description:  A WP-CLI command to sync the database and uploads from a live site to a development environment
-Version:      1.1.1
+Version:      1.1.2
 Author:       Jon Beaumont-Pike
 Author URI:   https://jonbp.co.uk/
 License:      MIT License
@@ -65,7 +65,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
       $pipe = '|';
     }
     
-    $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "cd '.$rem_proj_loc.' & '.$rem_proj_loc.'/vendor/bin/wp db export -" '.$pipe.' ./vendor/bin/wp db import -';
+    $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"cd '.$rem_proj_loc.' && '.$rem_proj_loc.'/vendor/bin/wp db export -\"" '.$pipe.' ./vendor/bin/wp db import -';
     system($command);
 
     /**
