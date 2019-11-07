@@ -2,7 +2,7 @@
 /*
 Plugin Name:  WP-CLI Sync
 Description:  A WP-CLI command to sync the database and uploads from a live site to a development environment
-Version:      1.1.2
+Version:      1.1.3
 Author:       Jon Beaumont-Pike
 Author URI:   https://jonbp.co.uk/
 License:      MIT License
