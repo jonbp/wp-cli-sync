@@ -65,7 +65,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
       $pipe = '|';
     }
     
-    $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"cd '.$rem_proj_loc.' && '.$rem_proj_loc.'/vendor/bin/wp db export -\"" '.$pipe.' ./vendor/bin/wp db import -';
+    $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"cd '.$rem_proj_loc.' && '.$rem_proj_loc.'/vendor/bin/wp db export -\"" '.$pipe.' wp db import -';
     system($command);
 
     /**
@@ -89,7 +89,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     if(!empty($dev_activated_plugins)) {
       task_message('Activate Plugins');
       $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_activated_plugins));
-      $command = './vendor/bin/wp plugin activate '.$cleaned_arr_list;
+      $command = 'wp plugin activate '.$cleaned_arr_list;
       system($command);
     }
 
@@ -97,7 +97,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     if(!empty($dev_deactivated_plugins)) {
       task_message('Deactivate Plugins');
       $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_deactivated_plugins));
-      $command = './vendor/bin/wp plugin deactivate '.$cleaned_arr_list;
+      $command = 'wp plugin deactivate '.$cleaned_arr_list;
       system($command);
     }
 
