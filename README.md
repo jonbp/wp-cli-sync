@@ -2,6 +2,8 @@
 
 A WP-CLI command for syncing a live site to a development environment
 
+![WP-CLI Screenshot](https://i.imgur.com/ugUhcuQ.gif)
+
 ## Requirements
 
 * A [bedrock](https://github.com/roots/bedrock) based WordPress project
