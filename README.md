@@ -34,6 +34,11 @@ DEV_ACTIVATED_PLUGINS=""
 
 # Plugins deactivated on sync
 DEV_DEACTIVATED_PLUGINS=""
+
+# Dirs to exclude from sync
+# Multiple dirs can be provided by separating with a comma
+# Use dir names or paths relative to uploads dir
+DEV_SYNC_DIR_EXCLUDES=""
 ```
 
 3. Run `wp sync` from the project root.

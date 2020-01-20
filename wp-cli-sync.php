@@ -73,9 +73,18 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
      * TASK: Sync Uploads Folder
      */
     $task_name = 'Sync Uploads Folder';
+
+    $excludes  = '';
+    if ($exclude_dirs = env('DEV_SYNC_DIR_EXCLUDES')) {
+      $exclude_dirs = explode(',', $exclude_dirs);
+      foreach ($exclude_dirs as $dir) {
+        $excludes .= ' --exclude=' . $dir;
+      }
+    }
+
     if (`which rsync`) {
       task_message($task_name);
-      $command = 'rsync -avhP '.$ssh_username.'@'.$ssh_hostname.':'.$rem_proj_loc.'/web/app/uploads/ ./web/app/uploads/';
+      $command = 'rsync -avhP '.$ssh_username.'@'.$ssh_hostname.':'.$rem_proj_loc.'/web/app/uploads/ ./web/app/uploads/' . $excludes;
       system($command);
     } else {
       task_message($task_name.' task not ran, please install \'rsync\'', 'Error', 31);
