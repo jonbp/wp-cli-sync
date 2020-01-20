@@ -2,7 +2,7 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-### 1.1.4: 20/01/2020
+### 1.2.0: 20/01/2020
 
 * Added `--single-transaction` MySQL flag for non-blocking DB sync
 * Added support for rsync excluded directories
