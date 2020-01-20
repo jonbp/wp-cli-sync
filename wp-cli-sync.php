@@ -70,6 +70,16 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     system($command);
 
     /**
+     * TASK: Post sync queries
+     */
+    if ($queries = env('DEV_POST_SYNC_QUERIES')) {
+      $command = 'wp db query "' . preg_replace('/(`|")/i', '\\\\${1}', $queries) . '"';
+      debug_message($command);
+      system($command);
+    }
+
+
+    /**
      * TASK: Sync Uploads Folder
      */
     $task_name = 'Sync Uploads Folder';
