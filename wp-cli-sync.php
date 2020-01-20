@@ -19,6 +19,17 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
       echo "\033[".$color."m".$title.": ".$message."\n\033[0m";
     }
 
+    // Debug Message
+    function debug_message($message, $title='Debug', $color = 33, $firstBreak = false) {
+      if (!env('DEV_TASK_DEBUG')) {
+        return;
+      }
+      if ($firstBreak == true) {
+        echo "\n";
+      }
+      echo "\033[".$color."m".$title.": ".$message."\n\033[0m";
+    }
+
     // Line Break + Color Reset
     function lb_cr() {
       echo "\n\033[0m";
@@ -66,7 +77,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     }
 
     $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"cd '.$rem_proj_loc.' && '.$rem_proj_loc.'/vendor/bin/wp db export --single-transaction -\"" '.$pipe.' wp db import -';
-
+    debug_message($command);
     system($command);
 
     /**
@@ -95,6 +106,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     if (`which rsync`) {
       task_message($task_name);
       $command = 'rsync -avhP '.$ssh_username.'@'.$ssh_hostname.':'.$rem_proj_loc.'/web/app/uploads/ ./web/app/uploads/' . $excludes;
+      debug_message($command);
       system($command);
     } else {
       task_message($task_name.' task not ran, please install \'rsync\'', 'Error', 31);
@@ -110,6 +122,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
       task_message('Activate Plugins');
       $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_activated_plugins));
       $command = 'wp plugin activate '.$cleaned_arr_list;
+      debug_message($command);
       system($command);
     }
 
@@ -118,6 +131,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
       task_message('Deactivate Plugins');
       $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_deactivated_plugins));
       $command = 'wp plugin deactivate '.$cleaned_arr_list;
+      debug_message($command);
       system($command);
     }
 
