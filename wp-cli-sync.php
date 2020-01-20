@@ -65,7 +65,8 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
       $pipe = '|';
     }
     
-    $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"cd '.$rem_proj_loc.' && '.$rem_proj_loc.'/vendor/bin/wp db export -\"" '.$pipe.' wp db import -';
+    $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"cd '.$rem_proj_loc.' && '.$rem_proj_loc.'/vendor/bin/wp db export --single-transaction -\"" '.$pipe.' wp db import -';
+
     system($command);
 
     /**
