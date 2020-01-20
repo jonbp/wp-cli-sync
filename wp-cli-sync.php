@@ -33,7 +33,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     $rem_proj_loc = env('REMOTE_PROJECT_LOCATION');
 
     // Exit if some vars missing
-    if(empty($ssh_hostname) || empty($ssh_username) || empty($rem_proj_loc)) {
+    if (empty($ssh_hostname) || empty($ssh_username) || empty($rem_proj_loc)) {
 
       // Exit Messages
       task_message('some/all dev sync vars are not set in .env file', 'Error', 31);
@@ -64,7 +64,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
       task_message('Install the \'pv\' command to monitor import progress', 'Notice', 33, false);
       $pipe = '|';
     }
-    
+
     $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"cd '.$rem_proj_loc.' && '.$rem_proj_loc.'/vendor/bin/wp db export --single-transaction -\"" '.$pipe.' wp db import -';
 
     system($command);
@@ -87,7 +87,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
      */
 
     // Activate Plugins
-    if(!empty($dev_activated_plugins)) {
+    if (!empty($dev_activated_plugins)) {
       task_message('Activate Plugins');
       $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_activated_plugins));
       $command = 'wp plugin activate '.$cleaned_arr_list;
@@ -95,7 +95,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     }
 
     // Deactivate Plugins
-    if(!empty($dev_deactivated_plugins)) {
+    if (!empty($dev_deactivated_plugins)) {
       task_message('Deactivate Plugins');
       $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_deactivated_plugins));
       $command = 'wp plugin deactivate '.$cleaned_arr_list;
@@ -103,7 +103,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     }
 
     // Completion Message
-    if ($fail_count > 0) { 
+    if ($fail_count > 0) {
       task_message('Finished with '.$fail_count. ' errors', 'Warning', 33);
     } else {
       task_message('All Tasks Finished', 'Success', 32);
