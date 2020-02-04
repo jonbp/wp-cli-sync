@@ -1,5 +1,10 @@
 # WP CLI Sync
 
+![Packagist Version](https://img.shields.io/packagist/v/jonbp/wp-cli-sync)
+![Packagist Monthly Downloads](https://img.shields.io/packagist/dm/jonbp/wp-cli-sync)
+![GitHub issues](https://img.shields.io/github/issues-raw/jonbp/wp-cli-sync)
+![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/jonbp/wp-cli-sync)
+
 A WP-CLI command for syncing a live site to a development environment
 
 ![WP-CLI Screenshot](https://i.imgur.com/ugUhcuQ.gif)
