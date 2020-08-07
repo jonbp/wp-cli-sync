@@ -1,13 +1,31 @@
-# WP CLI Sync
+<h1 align="center">
+  <a href="https://github.com/jonbp/wp-cli-sync"><img alt="WP CLI Sync" src="https://jonbp.github.io/project-icons/wp-cli-sync.svg" width="64" height="64"></a><br />WP CLI Sync
+</h1>
 
-![Packagist Version](https://img.shields.io/packagist/v/jonbp/wp-cli-sync)
-![Packagist Monthly Downloads](https://img.shields.io/packagist/dm/jonbp/wp-cli-sync)
-![GitHub issues](https://img.shields.io/github/issues-raw/jonbp/wp-cli-sync)
-![GitHub pull requests](https://img.shields.io/github/issues-pr-raw/jonbp/wp-cli-sync)
+<p align="center">
+  <a href="https://packagist.org/packages/jonbp/wp-cli-sync">
+    <img alt="Packagist Latest Version" src="https://img.shields.io/packagist/v/jonbp/wp-cli-sync" />
+  </a>
 
-A WP-CLI command for syncing a live site to a development environment
+  <a href="https://packagist.org/packages/jonbp/wp-cli-sync">
+    <img alt="Packagist Downloads" src="https://img.shields.io/packagist/dm/jonbp/wp-cli-sync" />
+  </a>
 
-![WP-CLI Screenshot](https://i.imgur.com/ugUhcuQ.gif)
+  <a href="https://github.com/jonbp/wp-cli-sync/issues">
+    <img alt="GitHub Open Issues" src="https://img.shields.io/github/issues-raw/jonbp/wp-cli-sync" />
+  </a>
+
+  <a href="https://github.com/jonbp/wp-cli-sync/pulls">
+    <img alt="GitHub Open Pull Requests" src="https://img.shields.io/github/issues-pr-raw/jonbp/wp-cli-sync" />
+  </a>
+</p>
+
+<p align="center">A WP-CLI command for syncing a live site to a development environment</p>
+
+<p align="center">
+  <img src="https://i.imgur.com/ugUhcuQ.gif" />
+</p>
+
 
 ## Requirements
 
