@@ -1,13 +1,30 @@
 <?php
 /*
 Plugin Name:  WP-CLI Sync
-Description:  A WP-CLI command to sync the database and uploads from a live site to a development environment
-Version:      1.2.0
+Description:  A WP-CLI command for syncing a live site to a development environment
+Version:      1.2.1
 Author:       Jon Beaumont-Pike
 Author URI:   https://jonbp.co.uk/
 License:      MIT License
 */
 
+// Set Default Vars
+$env_variables = array(
+  'LIVE_SSH_HOSTNAME',
+  'LIVE_SSH_USERNAME',
+  'REMOTE_PROJECT_LOCATION',
+  'DEV_ACTIVATED_PLUGINS',
+  'DEV_DEACTIVATED_PLUGINS',
+  'DEV_POST_SYNC_QUERIES',
+  'DEV_SYNC_DIR_EXCLUDES',
+  'DEV_TASK_DEBUG'
+);
+
+foreach($env_variables as $env_variable) {
+  $_ENV[$env_variable] = isset($_ENV[$env_variable]) ? $_ENV[$env_variable]:'';
+}
+
+// Define Sync Command
 if ( defined( 'WP_CLI' ) && WP_CLI ) {
   $sync = function() {
 
@@ -21,7 +38,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 
     // Debug Message
     function debug_message($message, $title='Debug', $color = 33, $firstBreak = false) {
-      if (!env('DEV_TASK_DEBUG')) {
+      if (empty($_ENV['DEV_TASK_DEBUG'])) {
         return;
       }
       if ($firstBreak == true) {
@@ -39,9 +56,9 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     $fail_count = 0;
 
     // Sync vars
-    $ssh_hostname = env('LIVE_SSH_HOSTNAME');
-    $ssh_username = env('LIVE_SSH_USERNAME');
-    $rem_proj_loc = env('REMOTE_PROJECT_LOCATION');
+    $ssh_hostname = $_ENV['LIVE_SSH_HOSTNAME'];
+    $ssh_username = $_ENV['LIVE_SSH_USERNAME'];
+    $rem_proj_loc = $_ENV['REMOTE_PROJECT_LOCATION'];
 
     // Exit if some vars missing
     if (empty($ssh_hostname) || empty($ssh_username) || empty($rem_proj_loc)) {
@@ -56,8 +73,8 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     }
 
     // Plugin Vars
-    $dev_activated_plugins = env('DEV_ACTIVATED_PLUGINS');
-    $dev_deactivated_plugins = env('DEV_DEACTIVATED_PLUGINS');
+    $dev_activated_plugins = $_ENV['DEV_ACTIVATED_PLUGINS'];
+    $dev_deactivated_plugins = $_ENV['DEV_DEACTIVATED_PLUGINS'];
 
     // Move to project root
     chdir(ABSPATH.'../../');
@@ -83,7 +100,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     /**
      * TASK: Post sync queries
      */
-    if ($queries = env('DEV_POST_SYNC_QUERIES')) {
+    if ($queries = $_ENV['DEV_POST_SYNC_QUERIES']) {
       $command = 'wp db query "' . preg_replace('/(`|")/i', '\\\\${1}', $queries) . '"';
       debug_message($command);
       system($command);
@@ -96,7 +113,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     $task_name = 'Sync Uploads Folder';
 
     $excludes  = '';
-    if ($exclude_dirs = env('DEV_SYNC_DIR_EXCLUDES')) {
+    if ($exclude_dirs = $_ENV['DEV_SYNC_DIR_EXCLUDES']) {
       $exclude_dirs = explode(',', $exclude_dirs);
       foreach ($exclude_dirs as $dir) {
         $excludes .= ' --exclude=' . $dir;

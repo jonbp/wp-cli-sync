@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://github.com/jonbp/wp-cli-sync"><img alt="WP CLI Sync" src="https://jonbp.github.io/project-icons/wp-cli-sync.svg" width="64" height="64"></a><br />WP CLI Sync
+  <a href="https://github.com/jonbp/wp-cli-sync"><img alt="WP-CLI Sync" src="https://jonbp.github.io/project-icons/wp-cli-sync.svg" width="64" height="64"></a><br />WP-CLI Sync
 </h1>
 
 <p align="center">
@@ -30,6 +30,7 @@
 ## Requirements
 
 * A [bedrock](https://github.com/roots/bedrock) based WordPress project
+* SSH connection to live server
 * [WP-CLI](https://github.com/wp-cli/wp-cli)
 * [rsync](https://rsync.samba.org)
 

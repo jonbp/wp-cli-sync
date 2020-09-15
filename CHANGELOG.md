@@ -2,6 +2,10 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 1.2.1: 07/09/2020
+
+* Fixed compatiblity with `oscarotero/env` 2.0
+
 ### 1.2.0: 20/01/2020
 
 * Added `--single-transaction` MySQL flag for non-blocking DB sync
