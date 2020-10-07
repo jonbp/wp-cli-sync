@@ -2,10 +2,6 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-### 1.2.2: 07/10/2020
-
-* Added `roots/bedrock` dependency
-
 ### 1.2.1: 15/09/2020
 
 * Fixed compatiblity with `oscarotero/env` 2.0

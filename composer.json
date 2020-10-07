@@ -12,7 +12,6 @@
   ],
   "homepage": "https://github.com/jonbp/wp-cli-sync",
   "require": {
-    "roots/bedrock": "^1.8",
     "wp-cli/wp-cli": "^2.1",
     "wp-cli/db-command": "^2.0",
     "wp-cli/extension-command": "^2.0"
