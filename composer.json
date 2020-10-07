@@ -11,7 +11,6 @@
     }
   ],
   "homepage": "https://github.com/jonbp/wp-cli-sync",
-  "minimum-stability": "dev",
   "require": {
     "roots/bedrock": "^1.8",
     "wp-cli/wp-cli": "^2.1",
