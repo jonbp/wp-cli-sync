@@ -11,6 +11,7 @@
     }
   ],
   "homepage": "https://github.com/jonbp/wp-cli-sync",
+  "minimum-stability": "dev",
   "require": {
     "wp-cli/wp-cli": "^2.1",
     "wp-cli/db-command": "^2.0",
