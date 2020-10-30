@@ -70,3 +70,16 @@ DEV_POST_SYNC_QUERIES=""
 ```
 
 3. Run `wp sync` from the project root.
+
+## First Sync
+
+You may find yourself working on a bedrock project that already exists on a production server and you don't have the database setup locally yet. Running `wp sync` in the project will fail in this case as it requires an active WordPress installation to run.
+
+To remedy this, you can run the following commands to create a database (if necessary) and create a basic installation inside that database in order to run the plugin and its first sync.
+
+```
+wp db create
+wp core install --url=abc.xyz --title=abc --admin_user=abc --admin_password=abc --admin_email=abc@abc.xyz --skip-email
+```
+
+It’s not necessary to edit the variables on the second line as the database is overwritten by the plugin during sync. The code is simply to give the plugin the requirements it needs to run without the real database installed.
