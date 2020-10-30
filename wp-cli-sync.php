@@ -2,7 +2,7 @@
 /*
 Plugin Name:  WP-CLI Sync
 Description:  A WP-CLI command for syncing a live site to a development environment
-Version:      1.2.1
+Version:      1.3.0
 Author:       Jon Beaumont-Pike
 Author URI:   https://jonbp.co.uk/
 License:      MIT License
@@ -60,11 +60,71 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     $ssh_username = $_ENV['LIVE_SSH_USERNAME'];
     $rem_proj_loc = $_ENV['REMOTE_PROJECT_LOCATION'];
 
+    /**
+     * BEGIN VAR / CONNECTION CHECKS
+     */
+
     // Exit if some vars missing
     if (empty($ssh_hostname) || empty($ssh_username) || empty($rem_proj_loc)) {
 
       // Exit Messages
       task_message('some/all dev sync vars are not set in .env file', 'Error', 31);
+
+      // Line Break + Color Reset + Exit
+      lb_cr();
+      exit();
+
+    }
+
+    // Check if Remote location formatted correctly
+    if(($rem_proj_loc[0] != '/') && ($rem_proj_loc[0] != '~')) {
+
+      // Exit Messages
+      task_message('Incorrect formatting of the REMOTE_PROJECT_LOCATION variable', 'Error', 31);
+
+      // Line Break + Color Reset + Exit
+      lb_cr();
+      exit();
+
+    } elseif($rem_proj_loc[0] == '~') {
+
+      if($rem_proj_loc[1] != '/') {
+
+        // Exit Messages
+        task_message('Incorrect formatting of the REMOTE_PROJECT_LOCATION variable', 'Error', 31);
+
+        // Line Break + Color Reset + Exit
+        lb_cr();
+        exit();
+
+      }
+
+    }
+
+    // Check if SSH connection works
+    $command = 'ssh -q '.$ssh_username.'@'.$ssh_hostname.' exit; echo $?';
+    $live_server_status = exec($command);
+
+    if ($live_server_status == '255') {
+
+      // Exit Messages
+      task_message('Cannot connect to live server over SSH', 'Error', 31);
+
+      // Line Break + Color Reset + Exit
+      lb_cr();
+      exit();
+
+    }
+
+    // Check if WP-CLI is installed on live server
+    $command = 'ssh -q '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"test -f '.$rem_proj_loc.'/vendor/bin/wp && echo true || echo false\""';
+    $live_server_check = exec($command);
+
+    if ($live_server_check == 'false') {
+
+      // Exit Messages
+      task_message('Connected but cannot find remote WP-CLI', 'Error', 31);
+      task_message('Either WP-CLI Sync is not installed on the live server or the path to your project is incorrect', 'Notice');
 
       // Line Break + Color Reset + Exit
       lb_cr();
@@ -164,5 +224,5 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 
   };
 
-  WP_CLI::add_command( 'sync', $sync);
+  WP_CLI::add_command('sync', $sync);
 }
