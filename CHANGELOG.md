@@ -2,6 +2,12 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 1.3.0: 01/11/2020
+
+* Added connection checks
+* Improved `.env` variable checks
+* Added 'First Sync' instructions to README
+
 ### 1.2.1: 15/09/2020
 
 * Fixed compatiblity with `oscarotero/env` 2.0
