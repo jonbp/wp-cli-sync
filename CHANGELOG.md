@@ -2,6 +2,11 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 1.3.1: 03/11/2020
+
+* Added welcome and connection success messages
+* Added hints to checks
+
 ### 1.3.0: 01/11/2020
 
 * Added connection checks
