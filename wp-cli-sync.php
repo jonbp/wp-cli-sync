@@ -226,7 +226,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     }
 
     // Deactivate Maintenance Mode
-    $command = 'wp maintenance-mode activate';
+    $command = 'wp maintenance-mode deactivate';
     exec($command);
 
     // Completion Message
