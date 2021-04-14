@@ -148,6 +148,10 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     // Move to project root
     chdir(ABSPATH.'../../');
 
+    // Activate Maintenance Mode
+    $command = 'wp maintenance-mode activate';
+    exec($command);
+
     /**
      * TASK: Database Sync
      */
@@ -220,6 +224,10 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
       debug_message($command);
       system($command);
     }
+
+    // Deactivate Maintenance Mode
+    $command = 'wp maintenance-mode activate';
+    exec($command);
 
     // Completion Message
     if ($fail_count > 0) {
