@@ -21,7 +21,7 @@ $env_variables = array(
 );
 
 foreach($env_variables as $env_variable) {
-  $_ENV[$env_variable] = isset($_ENV[$env_variable]) ? $_ENV[$env_variable]:'';
+    $_ENV[$env_variable] = getenv($env_variable) ?: '';
 }
 
 // Define Sync Command
