@@ -149,7 +149,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     chdir(ABSPATH.'../../');
 
     // Activate Maintenance Mode
-    $command = 'wp maintenance-mode activate';
+    $command = ABSPATH . '/../../vendor/bin/wp maintenance-mode activate';
     exec($command);
 
     /**
@@ -166,7 +166,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
       $pipe = '|';
     }
 
-    $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"cd '.$rem_proj_loc.' && '.$rem_proj_loc.'/vendor/bin/wp db export --single-transaction -\"" '.$pipe.' wp db import -';
+    $command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"cd '.$rem_proj_loc.' && '.$rem_proj_loc.'/vendor/bin/wp db export --single-transaction -\"" '.$pipe. ' ' . ABSPATH . '/../../vendor/bin/wp db import -';
     debug_message($command);
     system($command);
 
@@ -174,7 +174,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
      * TASK: Post sync queries
      */
     if ($queries = $_ENV['DEV_POST_SYNC_QUERIES']) {
-      $command = 'wp db query "' . preg_replace('/(`|")/i', '\\\\${1}', $queries) . '"';
+      $command = ABSPATH . '/../../vendor/bin/wp db query "' . preg_replace('/(`|")/i', '\\\\${1}', $queries) . '"';
       debug_message($command);
       system($command);
     }
@@ -211,7 +211,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     if (!empty($dev_activated_plugins)) {
       task_message('Activate Plugins');
       $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_activated_plugins));
-      $command = 'wp plugin activate '.$cleaned_arr_list;
+      $command = ABSPATH . '/../../vendor/bin/wp plugin activate '.$cleaned_arr_list;
       debug_message($command);
       system($command);
     }
@@ -220,13 +220,13 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     if (!empty($dev_deactivated_plugins)) {
       task_message('Deactivate Plugins');
       $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_deactivated_plugins));
-      $command = 'wp plugin deactivate '.$cleaned_arr_list;
+      $command = ABSPATH . '/../../vendor/bin/wp plugin deactivate '.$cleaned_arr_list;
       debug_message($command);
       system($command);
     }
 
     // Deactivate Maintenance Mode
-    $command = 'wp maintenance-mode deactivate';
+    $command = ABSPATH . '/../../vendor/bin/wp maintenance-mode deactivate';
     exec($command);
 
     // Completion Message
