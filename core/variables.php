@@ -17,5 +17,5 @@ $dev_deactivated_plugins = $_ENV['DEV_DEACTIVATED_PLUGINS'];
 chdir(ABSPATH.'../../');
 
 // Activate Maintenance Mode
-$command = ABSPATH . '/../../vendor/bin/wp maintenance-mode activate';
+$command = 'vendor/bin/wp maintenance-mode activate';
 exec($command);
