@@ -22,7 +22,7 @@ $env_variables = array(
 );
 
 foreach($env_variables as $env_variable => $env_variable_default) {
-  $ENV[$env_variable] = getenv($env_variable) ?: $env_variable_default;
+  $_ENV[$env_variable] = getenv($env_variable) ?: $env_variable_default;
 }
 
 // Define Sync Command
