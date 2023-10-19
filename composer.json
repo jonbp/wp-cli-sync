@@ -11,11 +11,11 @@
     }
   ],
   "homepage": "https://github.com/jonbp/wp-cli-sync",
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "require": {
-    "wp-cli/wp-cli": "^2.1",
+    "wp-cli/wp-cli": "^2.8",
     "wp-cli/db-command": "^2.0",
-    "wp-cli/extension-command": "^2.0",
-    "wp-cli/maintenance-mode-command": "2.x-dev"
+    "wp-cli/extension-command": "^2.1",
+    "wp-cli/maintenance-mode-command": "^2.0"
   }
 }
