@@ -10,28 +10,19 @@ License:      MIT License
 
 // Set Default Vars
 $env_variables = array(
-	'LIVE_SSH_HOSTNAME',
-	'LIVE_SSH_USERNAME',
-	'REMOTE_PROJECT_LOCATION',
-	'DEV_ACTIVATED_PLUGINS',
-	'DEV_DEACTIVATED_PLUGINS',
-	'DEV_POST_SYNC_QUERIES',
-	'DEV_SYNC_DIR_EXCLUDES',
-	'DEV_TASK_DEBUG',
-	'UPLOAD_DIR'
+	'LIVE_SSH_HOSTNAME' => '',
+	'LIVE_SSH_USERNAME' => '',
+	'REMOTE_PROJECT_LOCATION' => '',
+	'DEV_ACTIVATED_PLUGINS' => '',
+	'DEV_DEACTIVATED_PLUGINS' => '',
+	'DEV_POST_SYNC_QUERIES' => '',
+	'DEV_SYNC_DIR_EXCLUDES' => '',
+	'DEV_TASK_DEBUG' => '',
+	'UPLOAD_DIR' => 'web/app/uploads'
 );
 
-foreach ($env_variables as $env_variable) {
-	$_ENV[$env_variable] = $_ENV[$env_variable] ?? getenv($env_variable) ?? getDefault($env_variable);
-}
-
-function getDefault($env_variable): bool|array|string
-{
-	if ($env_variable === 'UPLOAD_DIR') {
-		return getenv($env_variable) ?: 'web/app/uploads';
-	} else {
-		return '';
-	}
+foreach($env_variables as $env_variable => $env_variable_default) {
+  $ENV[$env_variable] = getenv($env_variable) ?: $env_variable_default;
 }
 
 // Define Sync Command
@@ -69,7 +60,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     $ssh_hostname = $_ENV['LIVE_SSH_HOSTNAME'];
     $ssh_username = $_ENV['LIVE_SSH_USERNAME'];
     $rem_proj_loc = $_ENV['REMOTE_PROJECT_LOCATION'];
-	$upload_dir = $_ENV['UPLOAD_DIR'];
+	  $upload_dir = $_ENV['UPLOAD_DIR'];
 
     // Welcome
     task_message('Running .env file and connection checks...', 'WP-CLI Sync', 97);
@@ -189,7 +180,6 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
       debug_message($command);
       system($command);
     }
-
 
     /**
      * TASK: Sync Uploads Folder
