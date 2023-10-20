@@ -1,33 +1,21 @@
-<h1 align="center">
-  <a href="https://github.com/jonbp/wp-cli-sync"><img alt="WP-CLI Sync" src="https://jonbp.github.io/project-icons/wp-cli-sync.svg" width="64" height="64"></a><br />WP-CLI Sync
-</h1>
+# WP-CLI Sync<a href="https://github.com/jonbp/wp-cli-sync"><img alt="WP-CLI Sync" src="https://jonbp.github.io/project-icons/wp-cli-sync.svg" width="40" height="40" align="right"></a>
 
-<p align="center">
-  <a href="https://packagist.org/packages/jonbp/wp-cli-sync">
-    <img alt="Packagist Latest Version" src="https://img.shields.io/packagist/v/jonbp/wp-cli-sync" />
-  </a>
+[![Packagist Latest Version](https://img.shields.io/packagist/v/jonbp/wp-cli-sync)](https://packagist.org/packages/jonbp/wp-cli-sync)
+[![Packagist Downloads](https://img.shields.io/packagist/dm/jonbp/wp-cli-sync)](https://packagist.org/packages/jonbp/wp-cli-sync)
+[![GitHub Open Issues](https://img.shields.io/github/issues-raw/jonbp/wp-cli-sync)](https://github.com/jonbp/wp-cli-sync/issues)
+[![GitHub Open Pull Requests](https://img.shields.io/github/issues-pr-raw/jonbp/wp-cli-sync)](https://github.com/jonbp/wp-cli-sync/pulls)
 
-  <a href="https://packagist.org/packages/jonbp/wp-cli-sync">
-    <img alt="Packagist Downloads" src="https://img.shields.io/packagist/dm/jonbp/wp-cli-sync" />
-  </a>
+## About
 
-  <a href="https://github.com/jonbp/wp-cli-sync/issues">
-    <img alt="GitHub Open Issues" src="https://img.shields.io/github/issues-raw/jonbp/wp-cli-sync" />
-  </a>
+A WP-CLI command for syncing a live site to a development environment.
 
-  <a href="https://github.com/jonbp/wp-cli-sync/pulls">
-    <img alt="GitHub Open Pull Requests" src="https://img.shields.io/github/issues-pr-raw/jonbp/wp-cli-sync" />
-  </a>
-</p>
+This plugin is designed to be used with a [Roots Bedrock](https://github.com/roots/bedrock) based WordPress project.
 
-<p align="center">A WP-CLI command for syncing a live site to a development environment</p>
-
-<p align="center">
-  <img src="https://i.imgur.com/ugUhcuQ.gif" />
-</p>
-
+![Screenshot](https://i.imgur.com/ugUhcuQ.gif)
 
 ## Requirements
+
+You will need the following to use this plugin:
 
 * A [bedrock](https://github.com/roots/bedrock) based WordPress project
 * SSH connection to live server
@@ -35,6 +23,8 @@
 * [rsync](https://rsync.samba.org)
 
 ## Installation
+
+To install this plugin, follow these steps:
 
 1. Require the plugin by running:
 
@@ -58,15 +48,6 @@ DEV_ACTIVATED_PLUGINS=""
 
 # Plugins deactivated on sync
 DEV_DEACTIVATED_PLUGINS=""
-
-# Dirs to exclude from sync
-# Multiple dirs can be provided by separating with a comma
-# Use dir names or paths relative to uploads dir
-DEV_SYNC_DIR_EXCLUDES=""
-
-# DB Queries to run after sync
-DEV_POST_SYNC_QUERIES=""
-
 ```
 
 3. Run `wp sync` from the project root.
@@ -83,3 +64,14 @@ wp core install --url=abc.xyz --title=abc --admin_user=abc --admin_password=abc 
 ```
 
 It’s not necessary to edit the variables on the second line as the database is overwritten by the plugin during sync. The code is simply to give the plugin the requirements it needs to run without the real database installed.
+
+## Extra Environment Variables
+
+Below is a list of extra environment variables that can be added to your `.env` file to customise the sync process.
+
+| Variable | Description |
+| --- | --- |
+| `DEV_POST_SYNC_QUERIES` | A comma seperated list of SQL queries to run after the sync has completed. |
+| `DEV_SYNC_DIR_EXCLUDES` | A comma seperated list of directories within the uploads folder to exclude from the sync. |
+| `DEV_TASK_DEBUG` | Set to `true` to show debug information about the commands being run. Useful for debugging if something isn't working as expected. |
+| `UPLOAD_DIR` | The name of the uploads directory. Defaults to `app/uploads` where the uploads folder is located on a bedrock project. |

@@ -2,6 +2,13 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 1.3.2: 20/10/2023
+* Maintanence mode commands to prevent the site being accessed during sync
+* ENV Optimisations (merci @gmutschler)
+* Custom uploads folder directory support (thanks @paintface)
+* Composer stable stability + updated WP-CLI packages
+* New folder structure ✨
+
 ### 1.3.1: 03/11/2020
 
 * Added welcome and connection success messages
