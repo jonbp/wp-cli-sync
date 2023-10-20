@@ -2,7 +2,7 @@
 /*
 Plugin Name:  WP-CLI Sync
 Description:  A WP-CLI command for syncing a live site to a development environment
-Version:      1.3.1
+Version:      1.3.2
 Author:       Jon Beaumont-Pike
 Author URI:   https://jonbp.co.uk/
 License:      MIT License
@@ -10,8 +10,8 @@ License:      MIT License
 
 // Set Default Vars
 $env_variables = array(
-	'LIVE_SSH_HOSTNAME' => '',
 	'LIVE_SSH_USERNAME' => '',
+	'LIVE_SSH_HOSTNAME' => '',
 	'REMOTE_PROJECT_LOCATION' => '',
 	'DEV_ACTIVATED_PLUGINS' => '',
 	'DEV_DEACTIVATED_PLUGINS' => '',
