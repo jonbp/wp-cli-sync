@@ -13,9 +13,8 @@ if (empty($ssh_hostname) || empty($ssh_username) || empty($rem_proj_loc)) {
   // Exit Messages
   task_message('some/all dev sync vars are not set in .env file', 'Error', 31, false);
 
-  // Line Break + Color Reset + Exit
-  lb_cr();
-  exit();
+  // Deactivate maintenance mode + Exit
+  sync_exit($local_wp_cli);
 
 }
 
@@ -26,9 +25,8 @@ if(($rem_proj_loc[0] != '/') && ($rem_proj_loc[0] != '~')) {
   task_message('Incorrect formatting of the REMOTE_PROJECT_LOCATION variable', 'Error', 31, false);
   task_message('Ensure that the path begins with either / or ~/', 'Hint', 33);
 
-  // Line Break + Color Reset + Exit
-  lb_cr();
-  exit();
+  // Deactivate maintenance mode + Exit
+  sync_exit($local_wp_cli);
 
 } elseif($rem_proj_loc[0] == '~') {
 
@@ -38,9 +36,8 @@ if(($rem_proj_loc[0] != '/') && ($rem_proj_loc[0] != '~')) {
     task_message('Incorrect formatting of the REMOTE_PROJECT_LOCATION variable', 'Error', 31, false);
     task_message('Ensure that the path begins with either / or ~/', 'Hint', 33);
 
-    // Line Break + Color Reset + Exit
-    lb_cr();
-    exit();
+    // Deactivate maintenance mode + Exit
+    sync_exit($local_wp_cli);
 
   }
 
@@ -56,25 +53,23 @@ if ($live_server_status == '255') {
   task_message('Cannot connect to live server over SSH', 'Error', 31, false);
   task_message('Check that your LIVE_SSH_HOSTNAME and LIVE_SSH_USERNAME variables are correct', 'Hint', 33);
 
-  // Line Break + Color Reset + Exit
-  lb_cr();
-  exit();
+  // Deactivate maintenance mode + Exit
+  sync_exit($local_wp_cli);
 
 }
 
 // Check if WP-CLI is installed on live server
-$command = 'ssh -q '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"test -f '.$rem_proj_loc.'/vendor/bin/wp && echo true || echo false\""';
+$command = 'ssh -q '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"test -f '.$remote_wp_cli.' && echo true || echo false\""';
 $live_server_check = exec($command);
 
 if ($live_server_check == 'false') {
 
   // Exit Messages
   task_message('Connected but cannot find remote WP-CLI', 'Error', 31, false);
-  task_message('Either WP-CLI Sync is not installed on the live server or the REMOTE_PROJECT_LOCATION variable is incorrect', 'Hint', 33);
+  task_message('Check that WP-CLI is installed on the live server and that REMOTE_WP_CLI points at it', 'Hint', 33);
 
-  // Line Break + Color Reset + Exit
-  lb_cr();
-  exit();
+  // Deactivate maintenance mode + Exit
+  sync_exit($local_wp_cli);
 
 }
 

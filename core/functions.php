@@ -23,3 +23,10 @@ function debug_message($message, $title='Debug', $color = 33, $firstBreak = fals
 function lb_cr() {
   echo "\n\033[0m";
 }
+
+// Bail out without leaving the site in maintenance mode
+function sync_exit($local_wp_cli) {
+  exec($local_wp_cli . ' maintenance-mode deactivate');
+  lb_cr();
+  exit();
+}

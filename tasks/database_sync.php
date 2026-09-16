@@ -14,7 +14,7 @@ if (`which pv`) {
   $pipe = '|';
 }
 
-$command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"cd '.$rem_proj_loc.' && '.$rem_proj_loc.'/vendor/bin/wp db export --single-transaction -\"" '.$pipe. ' vendor/bin/wp db import -';
+$command = 'ssh '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"cd '.$rem_proj_loc.' && '.$remote_wp_cli.' db export --single-transaction -\"" '.$pipe.' '.$local_wp_cli.' db import -';
 debug_message($command);
 system($command);
 
@@ -22,7 +22,7 @@ system($command);
  * TASK: Post sync queries
  */
 if ($queries = $_ENV['DEV_POST_SYNC_QUERIES']) {
-  $command = 'vendor/bin/wp db query "' . preg_replace('/(`|")/i', '\\\\${1}', $queries) . '"';
+  $command = $local_wp_cli . ' db query "' . preg_replace('/(`|")/i', '\\\\${1}', $queries) . '"';
   debug_message($command);
   system($command);
 }

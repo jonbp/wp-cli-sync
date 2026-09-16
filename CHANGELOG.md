@@ -2,6 +2,16 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 1.4.0: 16/09/2026
+
+* Vanilla WordPress support alongside bedrock, with automatic layout detection
+* Configurable local and remote WP-CLI binaries (`LOCAL_WP_CLI`, `REMOTE_WP_CLI`)
+* Configurable project root (`LOCAL_PROJECT_LOCATION`)
+* `UPLOAD_DIR` now defaults to the right path for the detected layout
+* Settings can be defined as `wp-config.php` constants, so vanilla projects need no `.env` file
+* Site URLs are rewritten after a sync via `LIVE_DOMAIN` / `DEV_DOMAIN`, covering every http, https, www and non-www variant
+* Failed connection checks no longer leave the site in maintenance mode
+
 ### 1.3.2: 20/10/2023
 * Maintanence mode commands to prevent the site being accessed during sync
 * ENV Optimisations (merci @gmutschler)
