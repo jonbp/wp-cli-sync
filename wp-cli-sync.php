@@ -2,7 +2,7 @@
 /*
 Plugin Name:  WP-CLI Sync
 Description:  A WP-CLI command for syncing a live site to a development environment
-Version:      1.4.0
+Version:      1.4.1
 Author:       Jon Beaumont-Pike
 Author URI:   https://jonbp.co.uk/
 License:      MIT License
@@ -22,6 +22,7 @@ $env_variables = array(
 	'DEV_TASK_DEBUG' => '',
 	// Left empty to be auto-detected in core/variables.php
 	'UPLOAD_DIR' => '',
+	'PLUGIN_DIR' => '',
 	'LOCAL_PROJECT_LOCATION' => '',
 	'LOCAL_WP_CLI' => '',
 	'REMOTE_WP_CLI' => ''
@@ -54,6 +55,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     require_once(__DIR__.'/tasks/database_sync.php');
     require_once(__DIR__.'/tasks/url_replace.php');
     require_once(__DIR__.'/tasks/uploads_sync.php');
+    require_once(__DIR__.'/tasks/plugins_sync.php');
     require_once(__DIR__.'/tasks/plugins_management.php');
 
     // Deactivate Maintenance Mode

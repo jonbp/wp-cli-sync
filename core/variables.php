@@ -8,6 +8,7 @@ $ssh_hostname = $_ENV['LIVE_SSH_HOSTNAME'];
 $ssh_username = $_ENV['LIVE_SSH_USERNAME'];
 $rem_proj_loc = $_ENV['REMOTE_PROJECT_LOCATION'];
 $upload_dir = $_ENV['UPLOAD_DIR'];
+$plugin_dir = $_ENV['PLUGIN_DIR'];
 
 // Plugin Vars
 $dev_activated_plugins = $_ENV['DEV_ACTIVATED_PLUGINS'];
@@ -44,6 +45,12 @@ if (($remote_wp_cli[0] != '/') && ($remote_wp_cli[0] != '~')) {
 // Uploads folder, relative to the project root
 if (empty($upload_dir)) {
   $upload_dir = $is_bedrock ? 'web/app/uploads' : 'wp-content/uploads';
+}
+
+// Plugins folder, relative to the project root. Only used on a vanilla project,
+// as bedrock keeps its plugins under composer's control
+if (empty($plugin_dir)) {
+  $plugin_dir = 'wp-content/plugins';
 }
 
 // Move to project root

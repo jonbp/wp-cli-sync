@@ -2,6 +2,11 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 1.4.1: 18/09/2026
+
+* The plugins folder is now synced from the live server on vanilla projects, where composer isn't managing it
+* Configurable plugins folder (`PLUGIN_DIR`)
+
 ### 1.4.0: 16/09/2026
 
 * Vanilla WordPress support alongside bedrock, with automatic layout detection

@@ -11,6 +11,8 @@ A WP-CLI command for syncing a live site to a development environment.
 
 This plugin works with both [Roots Bedrock](https://github.com/roots/bedrock) projects and vanilla WordPress installations. The project layout, uploads folder and WP-CLI binary are detected automatically, and can be overridden if needed.
 
+The database and the uploads folder are synced on every project. On a vanilla project the plugins folder is pulled down too, since there's no composer file tracking what's installed. Bedrock projects keep their plugins under composer's control, so those are left alone.
+
 ![Screenshot](https://i.imgur.com/ugUhcuQ.gif)
 
 ## Requirements
@@ -39,12 +41,22 @@ To install this plugin, follow these steps:
 composer require jonbp/wp-cli-sync
 ```
 
-On a vanilla project without composer, drop the plugin into `wp-content/mu-plugins/wp-cli-sync/` and load it with a `wp-content/mu-plugins/wp-cli-sync-loader.php` file containing:
+On a vanilla project without composer, run this from the project root to fetch the latest release and write its loader:
+
+```sh
+curl -sSL https://raw.githubusercontent.com/jonbp/wp-cli-sync/master/install.sh | bash
+```
+
+Run it again whenever you want to update. Options are passed through with `bash -s --`, so `bash -s -- --version=1.3.2` pins a release and `bash -s -- --path=/path/to/project` installs somewhere other than the current directory. See `--help` for the rest.
+
+To do it by hand instead, drop the plugin into `wp-content/mu-plugins/wp-cli-sync/` and load it with a `wp-content/mu-plugins/wp-cli-sync-loader.php` file containing:
 
 ```php
 <?php
 require_once __DIR__ . '/wp-cli-sync/wp-cli-sync.php';
 ```
+
+WordPress only loads PHP files sitting directly inside `mu-plugins` and doesn't look in subdirectories, so the loader is what makes the plugin's own folder work.
 
 2. On a bedrock project, add the following to your `.env` file (don't forget `.env.example` for reference 😉):
 
@@ -112,5 +124,6 @@ These can be set in your `.env` file or, on a vanilla project, as `wp-config.php
 | `DEV_TASK_DEBUG` | Set to `true` to show debug information about the commands being run. Useful for debugging if something isn't working as expected. |
 | `LOCAL_PROJECT_LOCATION` | The path to the local project root. Detected automatically from the WordPress layout. |
 | `LOCAL_WP_CLI` | The local WP-CLI binary, relative to the project root or an absolute path. Defaults to `vendor/bin/wp` when present, otherwise `wp`. |
+| `PLUGIN_DIR` | The plugins directory, relative to the project root. Defaults to `wp-content/plugins`. Only used on a vanilla project. |
 | `REMOTE_WP_CLI` | The live server's WP-CLI binary. Relative paths are resolved against `REMOTE_PROJECT_LOCATION`, absolute and `~/` paths are used as given. Defaults to `vendor/bin/wp`. |
 | `UPLOAD_DIR` | The uploads directory, relative to the project root. Defaults to `web/app/uploads` on bedrock and `wp-content/uploads` on a vanilla project. |
