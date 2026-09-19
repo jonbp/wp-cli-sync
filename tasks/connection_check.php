@@ -62,7 +62,8 @@ if ($live_server_status == '255') {
 $command = 'ssh -q '.$ssh_username.'@'.$ssh_hostname.' "bash -c \"test -f '.$remote_wp_cli.' && echo true || echo false\""';
 $live_server_check = exec($command);
 
-if ($live_server_check == 'false') {
+// Anything but an explicit 'true' (e.g. no output from a dropped connection) is a failure
+if ($live_server_check !== 'true') {
 
   // Exit Messages
   task_message('Connected but cannot find remote WP-CLI', 'Error', 31, false);
