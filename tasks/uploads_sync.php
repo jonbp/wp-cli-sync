@@ -9,13 +9,13 @@ $excludes  = '';
 if ($exclude_dirs = $_ENV['DEV_SYNC_DIR_EXCLUDES']) {
   $exclude_dirs = explode(',', $exclude_dirs);
   foreach ($exclude_dirs as $dir) {
-    $excludes .= ' --exclude=' . $dir;
+    $excludes .= ' --exclude=' . escapeshellarg($dir);
   }
 }
 
 if (`which rsync`) {
   task_message($task_name);
-  $command = 'rsync -avhP ' . $ssh_username . '@' . $ssh_hostname . ':' . $rem_proj_loc . '/' . $upload_dir . '/ ./' . $upload_dir . '/' . $excludes;
+  $command = 'rsync -avhP ' . escapeshellarg($ssh_username . '@' . $ssh_hostname . ':' . $rem_proj_loc . '/' . $upload_dir . '/') . ' ' . escapeshellarg('./' . $upload_dir . '/') . $excludes;
   debug_message($command);
   system($command, $rsync_status);
 
