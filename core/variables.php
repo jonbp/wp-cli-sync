@@ -55,7 +55,3 @@ if (empty($plugin_dir)) {
 
 // Move to project root
 chdir($loc_proj_loc);
-
-// Activate Maintenance Mode
-$command = $local_wp_cli . ' maintenance-mode activate';
-exec($command);
