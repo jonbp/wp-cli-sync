@@ -13,7 +13,7 @@ if ($exclude_dirs = $_ENV['DEV_SYNC_DIR_EXCLUDES']) {
   }
 }
 
-if (`which rsync`) {
+if (shell_exec('which rsync')) {
   task_message($task_name);
   $command = 'rsync -avhP ' . escapeshellarg($ssh_username . '@' . $ssh_hostname . ':' . $rem_proj_loc . '/' . $upload_dir . '/') . ' ' . escapeshellarg('./' . $upload_dir . '/') . $excludes;
   debug_message($command);

@@ -13,7 +13,7 @@ if ($is_bedrock) {
   return;
 }
 
-if (`which rsync`) {
+if (shell_exec('which rsync')) {
   task_message($task_name);
   $command = 'rsync -avhP ' . escapeshellarg($ssh_username . '@' . $ssh_hostname . ':' . $rem_proj_loc . '/' . $plugin_dir . '/') . ' ' . escapeshellarg('./' . $plugin_dir . '/');
   debug_message($command);

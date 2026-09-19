@@ -7,7 +7,7 @@ $task_name = 'Sync Database';
 task_message($task_name);
 
 // pv check
-if (`which pv`) {
+if (shell_exec('which pv')) {
   $pipe = '| pv |';
 } else {
   task_message('Install the \'pv\' command to monitor import progress', 'Notice', 33, false);
