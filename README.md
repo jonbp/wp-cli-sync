@@ -97,6 +97,8 @@ Every variable in this README works either way. The environment is checked first
 
 3. Run `wp sync` from the project root.
 
+To sync only part of the site, pass a flag: `wp sync --database` (database only) or `wp sync --media` (uploads folder only). With no flags, everything is synced.
+
 ## First Sync
 
 You may find yourself working on a bedrock project that already exists on a production server and you don't have the database setup locally yet. Running `wp sync` in the project will fail in this case as it requires an active WordPress installation to run.
