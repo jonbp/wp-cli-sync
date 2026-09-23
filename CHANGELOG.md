@@ -2,6 +2,15 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 1.5.0: 23/09/2026
+
+* `--database` and `--media` flags to sync just the database or just the uploads (and vanilla plugins) folder, plus `--no-database` / `--no-media` to skip either. Media-only syncs skip maintenance mode (thanks @paintface)
+* Failed database exports, rsync transfers and remote WP-CLI checks are now reported as errors instead of finishing green (thanks @paintface)
+* Post-sync queries are skipped when the database import fails (thanks @paintface)
+* rsync paths and exclude patterns are shell-escaped (thanks @paintface)
+* Backtick operators replaced with `shell_exec()` for PHP 8.5 compatibility (thanks @paintface)
+* Added `wp-cli/entity-command` to the composer requires, fixing the site URL update on composer-managed installs (thanks @paintface)
+
 ### 1.4.1: 18/09/2026
 
 * The plugins folder is now synced from the live server on vanilla projects, where composer isn't managing it

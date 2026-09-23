@@ -11,7 +11,7 @@ A WP-CLI command for syncing a live site to a development environment.
 
 This plugin works with both [Roots Bedrock](https://github.com/roots/bedrock) projects and vanilla WordPress installations. The project layout, uploads folder and WP-CLI binary are detected automatically, and can be overridden if needed.
 
-The database and the uploads folder are synced on every project. On a vanilla project the plugins folder is pulled down too, since there's no composer file tracking what's installed. Bedrock projects keep their plugins under composer's control, so those are left alone.
+By default the database and the uploads folder are synced on every project. On a vanilla project the plugins folder is pulled down too, since there's no composer file tracking what's installed. Bedrock projects keep their plugins under composer's control, so those are left alone. See [Partial Syncs](#partial-syncs) to sync just one part.
 
 ![Screenshot](https://i.imgur.com/ugUhcuQ.gif)
 
@@ -97,7 +97,18 @@ Every variable in this README works either way. The environment is checked first
 
 3. Run `wp sync` from the project root.
 
-To sync only part of the site, pass a flag: `wp sync --database` (database only) or `wp sync --media` (uploads folder only). With no flags, everything is synced.
+## Partial Syncs
+
+With no flags, `wp sync` syncs everything. To sync only part of the site, pass a flag:
+
+| Command | What's synced |
+| --- | --- |
+| `wp sync --database` | The database, followed by the site URL rewrite and the `DEV_ACTIVATED_PLUGINS` / `DEV_DEACTIVATED_PLUGINS` changes |
+| `wp sync --media` | The uploads folder, plus the plugins folder on a vanilla project |
+
+`--no-database` and `--no-media` work the other way round, skipping that part and syncing the rest.
+
+A media-only sync leaves the database alone, so the local site isn't put into maintenance mode while it runs.
 
 ## First Sync
 
