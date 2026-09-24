@@ -9,14 +9,17 @@ if (empty($live_domain)) {
   return;
 }
 
-task_message('Replace Site URLs');
+task_start('Site URLs');
+
+$url_errors = array();
 
 // Point the site at the dev domain. On bedrock this is cosmetic, as WP_HOME
 // and WP_SITEURL take precedence over the stored options.
 foreach (array('siteurl', 'home') as $option) {
-  $command = $local_wp_cli.' option update '.$option.' "'.$dev_url.'"';
-  debug_message($command);
-  system($command);
+  list($status, $output) = sync_exec($local_wp_cli.' option update '.$option.' "'.$dev_url.'" --quiet');
+  if ($status !== 0) {
+    $url_errors = array_merge($url_errors, $output);
+  }
 }
 
 // Replace every variant of the live domain left behind in the database
@@ -27,10 +30,21 @@ $live_urls = array(
   'https://www.'.$live_domain
 );
 
+$replacements = 0;
+
 foreach ($live_urls as $live_url) {
-  $command = $local_wp_cli.' search-replace "'.$live_url.'" "'.$dev_url.'" --quiet';
-  debug_message($command);
-  system($command);
+  list($status, $output) = sync_exec($local_wp_cli.' search-replace "'.$live_url.'" "'.$dev_url.'" --format=count');
+  if ($status !== 0) {
+    $url_errors = array_merge($url_errors, $output);
+  } else {
+    $replacements += (int) end($output);
+  }
 }
 
-task_message('Replaced '.$live_domain.' with '.$dev_url, 'Site URLs', 33, false);
+if ($url_errors) {
+  task_result('Could not replace every site URL', 'error');
+  sync_output($url_errors);
+  $fail_count++;
+} else {
+  task_result($live_domain.' → '.$dev_url.', '.number_format($replacements).' '.($replacements === 1 ? 'replacement' : 'replacements'));
+}

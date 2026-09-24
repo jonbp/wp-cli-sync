@@ -13,17 +13,19 @@ if ($is_bedrock) {
   return;
 }
 
+task_start('Plugins');
+
 if (shell_exec('which rsync')) {
-  task_message($task_name);
-  $command = 'rsync -avhP ' . escapeshellarg($ssh_username . '@' . $ssh_hostname . ':' . $rem_proj_loc . '/' . $plugin_dir . '/') . ' ' . escapeshellarg('./' . $plugin_dir . '/');
-  debug_message($command);
-  system($command, $rsync_status);
+  list($rsync_status, $rsync_files, $rsync_bytes, $rsync_errors) = sync_rsync($ssh_username . '@' . $ssh_hostname . ':' . $rem_proj_loc . '/' . $plugin_dir . '/', './' . $plugin_dir . '/');
 
   if ($rsync_status !== 0 && $rsync_status !== 24) {
-    task_message($task_name.' failed (rsync exit code '.$rsync_status.')', 'Error', 31);
+    task_result($task_name.' failed (rsync exit code '.$rsync_status.')', 'error');
+    sync_output($rsync_errors);
     $fail_count++;
+  } else {
+    task_result(sync_rsync_summary($rsync_files, $rsync_bytes));
   }
 } else {
-  task_message($task_name.' task not ran, please install \'rsync\'', 'Error', 31);
+  task_result($task_name.' task not ran, please install \'rsync\'', 'error');
   $fail_count++;
 }

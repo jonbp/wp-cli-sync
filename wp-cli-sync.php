@@ -2,7 +2,7 @@
 /*
 Plugin Name:  WP-CLI Sync
 Description:  A WP-CLI command for syncing a live site to a development environment
-Version:      1.5.0
+Version:      1.5.1
 Author:       Jon Beaumont-Pike
 Author URI:   https://jonbp.co.uk/
 License:      MIT License
@@ -58,6 +58,8 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
       WP_CLI::error('Nothing to sync: both --no-database and --no-media given.');
     }
 
+    $sync_start = microtime(true);
+
     // Include base functions
     require_once(__DIR__.'/core/functions.php');
     require_once(__DIR__.'/core/variables.php');
@@ -65,7 +67,7 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
     // Activate Maintenance Mode (media-only syncs leave the database alone)
     if ($sync_database) {
       $command = $local_wp_cli . ' maintenance-mode activate';
-      exec($command);
+      exec($command.' 2>&1');
     }
 
     // Include tasks
@@ -86,18 +88,17 @@ if ( defined( 'WP_CLI' ) && WP_CLI ) {
 
       // Deactivate Maintenance Mode
       $command = $local_wp_cli . ' maintenance-mode deactivate';
-      exec($command);
+      exec($command.' 2>&1');
     }
 
     // Completion Message
+    echo "\n";
     if ($fail_count > 0) {
-      task_message('Finished with '.$fail_count. ' errors', 'Warning', 33);
+      echo sync_color('! Finished with '.$fail_count.' '.($fail_count === 1 ? 'error' : 'errors').' in '.sync_elapsed($sync_start), '1;33')."\n\n";
+      exit(1);
     } else {
-      task_message('All Tasks Finished', 'Success', 32);
+      echo sync_color('✔ Sync complete in '.sync_elapsed($sync_start), '1;32')."\n\n";
     }
-
-    // Final Line Break + Color Reset
-    lb_cr();
 
   };
 

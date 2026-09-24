@@ -2,6 +2,16 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 1.5.1: 24/09/2026
+
+* Tidier output: each task gets a heading and a one-line result with its duration, and the sync ends with a total time
+* rsync no longer lists every file. A single live progress line is shown instead, followed by a count and size of the files updated
+* Database imports show live progress, and `pv` is no longer used
+* The URL replacement reports how many replacements were made
+* Output from WP-CLI and rsync is only shown when something goes wrong
+* Colours and progress lines are skipped when the output isn't a terminal
+* `wp sync` now exits with code 1 when a check or task fails, so scripts can detect it
+
 ### 1.5.0: 23/09/2026
 
 * `--database` and `--media` flags to sync just the database or just the uploads (and vanilla plugins) folder, plus `--no-database` / `--no-media` to skip either. Media-only syncs skip maintenance mode (thanks @paintface)

@@ -3,21 +3,26 @@
 /**
  * TASK: Activate / Deactivate Plugins
  */
+$plugin_actions = array(
+  'activate' => $dev_activated_plugins,
+  'deactivate' => $dev_deactivated_plugins
+);
 
-// Activate Plugins
-if (!empty($dev_activated_plugins)) {
-  task_message('Activate Plugins');
-  $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_activated_plugins));
-  $command = $local_wp_cli . ' plugin activate '.$cleaned_arr_list;
-  debug_message($command);
-  system($command);
-}
+foreach ($plugin_actions as $action => $plugin_list) {
+  if (empty($plugin_list)) {
+    continue;
+  }
 
-// Deactivate Plugins
-if (!empty($dev_deactivated_plugins)) {
-  task_message('Deactivate Plugins');
-  $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($dev_deactivated_plugins));
-  $command = $local_wp_cli . ' plugin deactivate '.$cleaned_arr_list;
-  debug_message($command);
-  system($command);
+  task_start(ucfirst($action).' Plugins');
+  $cleaned_arr_list = preg_replace('/[ ,]+/', ' ', trim($plugin_list));
+  list($status, $output) = sync_exec($local_wp_cli . ' plugin '.$action.' '.$cleaned_arr_list);
+
+  // Missing plugins only warn, so they don't fail the sync
+  if ($status !== 0) {
+    task_result('Not every plugin could be '.$action.'d', 'warning');
+    // Fall back to everything if WP-CLI's wording ever changes
+    sync_output(preg_grep('/^(Warning|Error):/', $output) ?: $output);
+  } else {
+    task_result(ucfirst($action).'d '.str_replace(' ', ', ', $cleaned_arr_list));
+  }
 }

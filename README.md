@@ -13,7 +13,7 @@ This plugin works with both [Roots Bedrock](https://github.com/roots/bedrock) pr
 
 By default the database and the uploads folder are synced on every project. On a vanilla project the plugins folder is pulled down too, since there's no composer file tracking what's installed. Bedrock projects keep their plugins under composer's control, so those are left alone. See [Partial Syncs](#partial-syncs) to sync just one part.
 
-![Screenshot](https://i.imgur.com/ugUhcuQ.gif)
+![Screenshot](https://jonbp.github.io/project-screenshots/wp-cli-sync.gif)
 
 ## Requirements
 

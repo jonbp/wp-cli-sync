@@ -1,7 +1,9 @@
 <?php
 
 // Welcome
-task_message('Running .env file and connection checks...', 'WP-CLI Sync', 97);
+sync_header($live_domain ? $live_domain.' → '.$dev_domain : '');
+task_start('Connection');
+sync_status_line('    Checking settings and connection...');
 
 /**
  * BEGIN VAR / CONNECTION CHECKS
@@ -11,7 +13,7 @@ task_message('Running .env file and connection checks...', 'WP-CLI Sync', 97);
 if (empty($ssh_hostname) || empty($ssh_username) || empty($rem_proj_loc)) {
 
   // Exit Messages
-  task_message('some/all dev sync vars are not set in .env file', 'Error', 31, false);
+  task_result('LIVE_SSH_USERNAME, LIVE_SSH_HOSTNAME and REMOTE_PROJECT_LOCATION must all be set', 'error');
 
   // Deactivate maintenance mode + Exit
   sync_exit($local_wp_cli);
@@ -22,7 +24,7 @@ if (empty($ssh_hostname) || empty($ssh_username) || empty($rem_proj_loc)) {
 if(($rem_proj_loc[0] != '/') && ($rem_proj_loc[0] != '~')) {
 
   // Exit Messages
-  task_message('Incorrect formatting of the REMOTE_PROJECT_LOCATION variable', 'Error', 31, false);
+  task_result('Incorrect formatting of the REMOTE_PROJECT_LOCATION variable', 'error');
   task_message('Ensure that the path begins with either / or ~/', 'Hint', 33);
 
   // Deactivate maintenance mode + Exit
@@ -33,7 +35,7 @@ if(($rem_proj_loc[0] != '/') && ($rem_proj_loc[0] != '~')) {
   if($rem_proj_loc[1] != '/') {
 
     // Exit Messages
-    task_message('Incorrect formatting of the REMOTE_PROJECT_LOCATION variable', 'Error', 31, false);
+    task_result('Incorrect formatting of the REMOTE_PROJECT_LOCATION variable', 'error');
     task_message('Ensure that the path begins with either / or ~/', 'Hint', 33);
 
     // Deactivate maintenance mode + Exit
@@ -50,7 +52,7 @@ $live_server_status = exec($command);
 if ($live_server_status == '255') {
 
   // Exit Messages
-  task_message('Cannot connect to live server over SSH', 'Error', 31, false);
+  task_result('Cannot connect to '.$ssh_username.'@'.$ssh_hostname.' over SSH', 'error');
   task_message('Check that your LIVE_SSH_HOSTNAME and LIVE_SSH_USERNAME variables are correct', 'Hint', 33);
 
   // Deactivate maintenance mode + Exit
@@ -66,7 +68,7 @@ $live_server_check = exec($command);
 if ($live_server_check !== 'true') {
 
   // Exit Messages
-  task_message('Connected but cannot find remote WP-CLI', 'Error', 31, false);
+  task_result('Connected but cannot find remote WP-CLI at '.$remote_wp_cli, 'error');
   task_message('Check that WP-CLI is installed on the live server and that REMOTE_WP_CLI points at it', 'Hint', 33);
 
   // Deactivate maintenance mode + Exit
@@ -75,4 +77,4 @@ if ($live_server_check !== 'true') {
 }
 
 // Checks Success
-task_message('Running sync...', 'Connected', 32, false);
+task_result('Connected to '.$ssh_username.'@'.$ssh_hostname);
