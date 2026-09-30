@@ -48,9 +48,24 @@ function sync_bytes($bytes) {
   return size_format($bytes, $bytes >= 1048576 ? 1 : 0) ?: '0 B';
 }
 
-// Banner shown at the start of a sync
+// Version, from the plugin header
+function sync_version() {
+  $data = get_file_data(dirname(__DIR__).'/wp-cli-sync.php', array('version' => 'Version'));
+  return $data['version'] ?: 'dev';
+}
+
+// Banner shown at the start of a sync, with the source and version
 function sync_header($source) {
-  echo "\n".sync_color('WP-CLI Sync', '1;97').'  '.sync_color($source, 90)."\n";
+  $parts = array();
+  if ($source) {
+    $parts[] = $source;
+  }
+  $parts[] = sync_color('v'.sync_version(), 90);
+
+  // The project's own colour (#2CCBFE) where the terminal supports it, cyan elsewhere
+  $brand = in_array(getenv('COLORTERM'), array('truecolor', '24bit'), true) ? '1;38;2;44;203;254' : '1;36';
+
+  echo "\n".sync_color('○ WP-CLI Sync', $brand).'  '.implode(sync_color(' · ', 90), $parts)."\n";
 }
 
 // Task heading. Starts the task's timer.

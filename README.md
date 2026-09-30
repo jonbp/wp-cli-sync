@@ -1,4 +1,6 @@
-# WP-CLI Sync<a href="https://github.com/jonbp/wp-cli-sync"><img alt="WP-CLI Sync" src="https://jonbp.github.io/project-icons/wp-cli-sync.svg" width="40" height="40" align="right"></a>
+# WP-CLI Sync
+
+<a href="https://github.com/jonbp/wp-cli-sync"><img alt="WP-CLI Sync" src="https://jonbp.github.io/project-icons/wp-cli-sync.svg" align="right"></a>
 
 [![Packagist Latest Version](https://img.shields.io/packagist/v/jonbp/wp-cli-sync)](https://packagist.org/packages/jonbp/wp-cli-sync)
 [![Packagist Downloads](https://img.shields.io/packagist/dm/jonbp/wp-cli-sync)](https://packagist.org/packages/jonbp/wp-cli-sync)

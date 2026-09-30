@@ -2,6 +2,11 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 1.5.2: 30/09/2026
+
+* The welcome banner is shown in the project's colour, falling back to cyan on terminals without true colour support, and includes the version number
+* Pushing a tag publishes a GitHub release, with notes taken from its CHANGELOG.md entry
+
 ### 1.5.1: 24/09/2026
 
 * Tidier output: each task gets a heading and a one-line result with its duration, and the sync ends with a total time

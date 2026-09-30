@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags: ['*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      # The plugin header has to match the tag, or installs report the wrong version
+      - name: Check plugin version
+        run: |
+          version=$(sed -n 's/^Version:[[:space:]]*//p' wp-cli-sync.php)
+          if [ "$version" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::wp-cli-sync.php is version $version, but the tag is $GITHUB_REF_NAME"
+            exit 1
+          fi
+
+      # The notes are the tag's section of CHANGELOG.md, e.g. '### 1.5.1: 24/09/2026'
+      - name: Read release notes
+        run: |
+          awk -v tag="$GITHUB_REF_NAME" '
+            /^### / { found = index($0, "### " tag ":") == 1; next }
+            found
+          ' CHANGELOG.md | sed -e '/./,$!d' > notes.md
+          if [ ! -s notes.md ]; then
+            echo "::error::No CHANGELOG.md entry for $GITHUB_REF_NAME"
+            exit 1
+          fi
+
+      - name: Publish release
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md
+        env:
+          GH_TOKEN: ${{ github.token }}

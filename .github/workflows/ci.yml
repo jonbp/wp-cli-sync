@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  php:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0', '8.1', '8.2', '8.3', '8.4', '8.5']
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: wp-cli
+
+      - name: Lint
+        run: git ls-files -z '*.php' | xargs -0 -n1 php -l
+
+      # Loading the plugin into WP-CLI checks the command registers with its
+      # flags. A full sync needs a live server, so it isn't run here.
+      - name: Smoke test
+        run: |
+          cd "$RUNNER_TEMP"
+          wp --require="$GITHUB_WORKSPACE/wp-cli-sync.php" help sync | tee output.txt
+          grep -q 'wp sync \[--database\] \[--media\]' output.txt
+
+  installer:
+    name: Installer
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: ShellCheck
+        run: shellcheck install.sh
