@@ -2,10 +2,14 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-### 1.5.2: 30/09/2026
+### 1.5.3: 30/09/2026
 
 * The welcome banner is shown in the project's colour, falling back to cyan on terminals without true colour support, and includes the version number
 * Pushing a tag publishes a GitHub release, with notes taken from its CHANGELOG.md entry
+
+### 1.5.2: 30/09/2026
+
+* Same code as 1.5.1. The tag was pushed on the wrong commit, and Packagist doesn't allow a published version to change
 
 ### 1.5.1: 24/09/2026
 
