@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ruleset name="WP-CLI Sync">
+	<description>WordPress Coding Standards for WP-CLI Sync</description>
+
+	<file>.</file>
+	<exclude-pattern>/vendor/*</exclude-pattern>
+
+	<arg name="extensions" value="php"/>
+	<arg name="colors"/>
+	<arg value="sp"/>
+
+	<rule ref="WordPress"/>
+
+	<!-- Every PHP version the CI matrix runs -->
+	<config name="testVersion" value="7.4-"/>
+	<rule ref="PHPCompatibilityWP"/>
+
+	<config name="minimum_wp_version" value="5.0"/>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="WP_CLI_Sync"/>
+				<element value="wp_cli_sync"/>
+			</property>
+		</properties>
+	</rule>
+</ruleset>

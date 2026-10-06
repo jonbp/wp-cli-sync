@@ -2,6 +2,21 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 1.6.0: 06/10/2026
+
+* Reworked from procedural scripts into PHP classes in the `WP_CLI_Sync` namespace, with `core/` and `tasks/` replaced by `includes/`. `Command` registers `wp sync`, `Config` reads the settings and detects the project layout, `Sync` runs the tasks and handles maintenance mode, and `Output` and `Shell` handle the terminal and the commands
+* Each task is a class under `includes/tasks/`: `Connection_Check`, `Database_Sync`, `URL_Replace`, `Uploads_Sync`, `Plugins_Sync` and `Plugins_Management`. The uploads and plugins syncs share a `Folder_Sync` base instead of duplicating their rsync handling
+* Every SSH connection in a sync shares one, rather than each doing its own handshake. The connection is kept in `~/.ssh` and closed when the sync ends. If `~/.ssh` doesn't exist, each connection is made separately as before
+* The two connection checks are combined into one
+* The database export is gzipped on the live server and decompressed as it streams in, sending around a fifth of the data. The result shows both sizes, e.g. `Imported 5.2 MB (1.0 MB transferred)`. If the live server has no gzip, or PHP has no zlib, the export is sent uncompressed as before
+* The site URL options and the four search-replace passes run in one WP-CLI process instead of six
+* Classes are loaded by a small autoloader in `wp-cli-sync.php`, so installs without composer keep working
+* Settings are read when `wp sync` runs, rather than being copied into `$_ENV` when the plugin loads
+* With `DEV_TASK_DEBUG` set, the connection checks and maintenance mode commands are shown along with the rest
+* The code follows the [WordPress Coding Standards](https://developer.wordpress.org/coding-standards/wordpress-coding-standards/php/). Run `composer install && vendor/bin/phpcs` to check, with the ruleset in `phpcs.xml.dist`, which also checks compatibility with PHP 7.4 and above
+* CI runs PHPCS on every push and pull request
+* The plugin header is now a docblock. The release workflow and `install.sh` read the version from either header style, so updating an older install still reports its version
+
 ### 1.5.3: 30/09/2026
 
 * The welcome banner is shown in the project's colour, falling back to cyan on terminals without true colour support, and includes the version number

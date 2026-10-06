@@ -33,6 +33,23 @@ jobs:
           wp --require="$GITHUB_WORKSPACE/wp-cli-sync.php" help sync | tee output.txt
           grep -q 'wp sync \[--database\] \[--media\]' output.txt
 
+  standards:
+    name: Coding standards
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
+
+      - run: composer install --no-interaction --no-progress
+
+      - name: PHPCS
+        run: vendor/bin/phpcs
+
   installer:
     name: Installer
     runs-on: ubuntu-latest

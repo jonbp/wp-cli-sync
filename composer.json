@@ -19,5 +19,14 @@
     "wp-cli/extension-command": "^2.1",
     "wp-cli/maintenance-mode-command": "^2.0",
     "wp-cli/search-replace-command": "^2.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "require-dev": {
+    "wp-coding-standards/wpcs": "^3.4",
+    "phpcompatibility/phpcompatibility-wp": "^2.1"
   }
 }

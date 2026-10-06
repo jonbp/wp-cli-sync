@@ -17,7 +17,7 @@ jobs:
       # The plugin header has to match the tag, or installs report the wrong version
       - name: Check plugin version
         run: |
-          version=$(sed -n 's/^Version:[[:space:]]*//p' wp-cli-sync.php)
+          version=$(sed -n 's/^[[:space:]*]*Version:[[:space:]]*//p' wp-cli-sync.php)
           if [ "$version" != "$GITHUB_REF_NAME" ]; then
             echo "::error::wp-cli-sync.php is version $version, but the tag is $GITHUB_REF_NAME"
             exit 1

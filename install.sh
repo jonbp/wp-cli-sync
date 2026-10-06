@@ -113,7 +113,7 @@ fi
 
 # Don't clobber anything that isn't ours
 plugin_version() {
-  sed -n 's/^[[:space:]]*Version:[[:space:]]*\([^[:space:]]*\).*/\1/p' "$1" 2>/dev/null | head -n1
+  sed -n 's/^[[:space:]*]*Version:[[:space:]]*\([^[:space:]]*\).*/\1/p' "$1" 2>/dev/null | head -n1
 }
 
 if [ -e "$TARGET_DIR" ]; then
