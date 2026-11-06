@@ -125,6 +125,36 @@ wp core install --url=abc.xyz --title=abc --admin_user=abc --admin_password=abc 
 
 It’s not necessary to edit the variables on the second line as the database is overwritten by the plugin during sync. The code is simply to give the plugin the requirements it needs to run without the real database installed.
 
+## Uploads Proxy
+
+A live uploads folder can run to many gigabytes, most of which you'll never look at locally. Set `DEV_UPLOADS_PROXY` to `true` and the sync skips the uploads folder. When the local site is asked for an upload it doesn't have, it redirects the browser to the same file on `LIVE_DOMAIN`.
+
+Files that are on your machine are still served locally, including anything you upload to the local site and anything synced before. The database keeps its local URLs, so turning the proxy off later doesn't need another sync.
+
+To pull the whole uploads folder down once while the proxy is on, override it for that run:
+
+```sh
+DEV_UPLOADS_PROXY=false wp sync --media
+```
+
+The proxy never runs on `LIVE_DOMAIN` itself, or under WP-CLI, so it's safe for the setting to reach the live server.
+
+A few things to keep in mind:
+
+* The live site must be served over `https`.
+* Code that reads uploads straight from disk can't see the live files. This includes regenerating thumbnails, editing images in the media library, and plugins that read or zip files such as downloadable products. Sync the uploads folder for work like that.
+* The redirect relies on the web server handing missing files to WordPress, which the standard WordPress rewrite rules do. Some nginx configs return a 404 for missing images themselves, with a block like `location ~* \.(jpg|png|gif)$ { try_files $uri =404; }`. If uploads aren't loading, change that to `try_files $uri /index.php?$args;`, or redirect missing uploads in the web server instead:
+
+```nginx
+location ~ ^/(wp-content|app)/uploads/ {
+    try_files $uri @live_uploads;
+}
+
+location @live_uploads {
+    return 302 https://example.com$request_uri;
+}
+```
+
 ## Extra Environment Variables
 
 Below is a list of extra environment variables that can be added to your `.env` file to customise the sync process.
@@ -137,6 +167,7 @@ These can be set in your `.env` file or, on a vanilla project, as `wp-config.php
 | `DEV_POST_SYNC_QUERIES` | A comma seperated list of SQL queries to run after the sync has completed. |
 | `DEV_SYNC_DIR_EXCLUDES` | A comma seperated list of directories within the uploads folder to exclude from the sync. |
 | `DEV_TASK_DEBUG` | Set to `true` to show debug information about the commands being run. Useful for debugging if something isn't working as expected. |
+| `DEV_UPLOADS_PROXY` | Set to `true` to load missing uploads from the live site rather than syncing the uploads folder. See [Uploads Proxy](#uploads-proxy). |
 | `LOCAL_PROJECT_LOCATION` | The path to the local project root. Detected automatically from the WordPress layout. |
 | `LOCAL_WP_CLI` | The local WP-CLI binary, relative to the project root or an absolute path. Defaults to `vendor/bin/wp` when present, otherwise `wp`. |
 | `PLUGIN_DIR` | The plugins directory, relative to the project root. Defaults to `wp-content/plugins`. Only used on a vanilla project. |

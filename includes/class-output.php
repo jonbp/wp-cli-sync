@@ -99,8 +99,15 @@ class Output {
 		}
 		$parts[] = $this->color( 'v' . self::version(), 90 );
 
-		// The project's own colour (#2CCBFE) where the terminal supports it, cyan elsewhere.
-		$brand = in_array( getenv( 'COLORTERM' ), array( 'truecolor', '24bit' ), true ) ? '1;38;2;44;203;254' : '1;36';
+		// The project's own colour (#FE6B2C) where the terminal supports it,
+		// the nearest of 256 colours (#FF5F00) next, and yellow elsewhere.
+		if ( in_array( getenv( 'COLORTERM' ), array( 'truecolor', '24bit' ), true ) ) {
+			$brand = '1;38;2;254;107;44';
+		} elseif ( false !== strpos( (string) getenv( 'TERM' ), '256color' ) ) {
+			$brand = '1;38;5;202';
+		} else {
+			$brand = '1;33';
+		}
 
 		$this->write( "\n" . $this->color( '○ WP-CLI Sync', $brand ) . '  ' . implode( $this->color( ' · ', 90 ), $parts ) . "\n" );
 	}

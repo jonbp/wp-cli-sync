@@ -2,6 +2,14 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+### 1.7.0: 06/11/2026
+
+* New `DEV_UPLOADS_PROXY` setting. When it's `true`, the uploads folder isn't synced, and the local site redirects requests for uploads it doesn't have to the live site. Local files are still served from disk. See [Uploads Proxy](README.md#uploads-proxy) in the README
+* With the proxy on, the sync shows the Uploads step as skipped. The plugins folder is still synced on a vanilla project
+* The proxy never runs under WP-CLI or on the live domain, so the setting is safe to deploy
+* `DEV_UPLOADS_PROXY=false wp sync --media` still pulls the whole uploads folder down
+* The welcome banner uses the project's new colour, `#FE6B2C`. It falls back to the nearest 256-colour orange, then to yellow, on terminals without true colour support
+
 ### 1.6.0: 06/10/2026
 
 * Reworked from procedural scripts into PHP classes in the `WP_CLI_Sync` namespace, with `core/` and `tasks/` replaced by `includes/`. `Command` registers `wp sync`, `Config` reads the settings and detects the project layout, `Sync` runs the tasks and handles maintenance mode, and `Output` and `Shell` handle the terminal and the commands

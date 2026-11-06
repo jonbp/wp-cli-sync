@@ -28,6 +28,7 @@ class Config {
 		'DEV_POST_SYNC_QUERIES'   => '',
 		'DEV_SYNC_DIR_EXCLUDES'   => '',
 		'DEV_TASK_DEBUG'          => '',
+		'DEV_UPLOADS_PROXY'       => '',
 		'UPLOAD_DIR'              => '',
 		'PLUGIN_DIR'              => '',
 		'LOCAL_PROJECT_LOCATION'  => '',
@@ -148,6 +149,14 @@ class Config {
 	public $sync_dir_excludes;
 
 	/**
+	 * Whether missing uploads are redirected to the live site, in place of
+	 * syncing the uploads folder.
+	 *
+	 * @var bool
+	 */
+	public $uploads_proxy;
+
+	/**
 	 * Whether to show each command before it runs.
 	 *
 	 * @var bool
@@ -171,6 +180,10 @@ class Config {
 		$this->post_sync_queries   = $env['DEV_POST_SYNC_QUERIES'];
 		$this->sync_dir_excludes   = $env['DEV_SYNC_DIR_EXCLUDES'];
 		$this->debug               = ! empty( $env['DEV_TASK_DEBUG'] );
+
+		// Parsed as a boolean, so DEV_UPLOADS_PROXY=false wp sync can switch it
+		// off for one run.
+		$this->uploads_proxy = filter_var( $env['DEV_UPLOADS_PROXY'], FILTER_VALIDATE_BOOLEAN );
 
 		// Any scheme and trailing slash is stripped so the URLs can be rebuilt.
 		$this->live_domain = rtrim( preg_replace( '#^https?://#', '', $env['LIVE_DOMAIN'] ), '/' );
